@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vannevar Ops - Joint Military Planning Process Support</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .grid-background {
+            background-color: #000000;
+            background-image: 
+                /* Node network connections */
+                linear-gradient(135deg, transparent 20%, rgba(255, 255, 255, 0.08) 25%, transparent 30%),
+                linear-gradient(-135deg, transparent 20%, rgba(255, 255, 255, 0.08) 25%, transparent 30%),
+                linear-gradient(45deg, transparent 35%, rgba(255, 255, 255, 0.06) 40%, transparent 45%),
+                linear-gradient(-45deg, transparent 35%, rgba(255, 255, 255, 0.06) 40%, transparent 45%),
+                /* Horizontal and vertical grid lines */
+                linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                /* Node points at intersections */
+                radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.1) 2px, transparent 3px),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 1px, transparent 2px),
+                radial-gradient(circle at 25% 75%, rgba(255, 255, 255, 0.06) 1px, transparent 2px),
+                radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.06) 1px, transparent 2px);
+            background-size: 
+                200px 200px, 200px 200px, 150px 150px, 150px 150px,
+                100px 100px, 100px 100px,
+                100px 100px, 80px 80px, 120px 120px, 120px 120px;
+            background-position: 
+                0 0, 50px 0, 25px 25px, -25px 25px,
+                0 0, 0 0,
+                0 0, 40px 40px, 60px 20px, 20px 60px;
+        }
+        
+        .grid-background::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                /* Additional network patterns */
+                linear-gradient(30deg, transparent 48%, rgba(255, 255, 255, 0.02) 49%, rgba(255, 255, 255, 0.02) 51%, transparent 52%),
+                linear-gradient(-30deg, transparent 48%, rgba(255, 255, 255, 0.02) 49%, rgba(255, 255, 255, 0.02) 51%, transparent 52%),
+                linear-gradient(60deg, transparent 48%, rgba(255, 255, 255, 0.03) 49%, rgba(255, 255, 255, 0.03) 51%, transparent 52%),
+                /* Neural network style connections */
+                radial-gradient(ellipse at 20% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 70%),
+                radial-gradient(ellipse at 80% 70%, rgba(255, 255, 255, 0.02) 0%, transparent 70%),
+                radial-gradient(ellipse at 60% 20%, rgba(255, 255, 255, 0.015) 0%, transparent 60%);
+            background-size: 
+                180px 180px, 180px 180px, 240px 240px,
+                300px 200px, 300px 200px, 250px 180px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .agent-node {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .agent-node:hover {
+            transform: scale(1.05);
+        }
+        
+        .data-flow {
+            stroke-dasharray: 5,5;
+            animation: flow 2s linear infinite;
+        }
+        
+        @keyframes flow {
+            to { stroke-dashoffset: -10; }
+        }
+        
+        .connection-line {
+            stroke: #6B7280;
+            stroke-width: 1;
+            fill: none;
+            opacity: 0.3;
+        }
+        
+        .active-connection {
+            stroke: #ef4444;
+            stroke-width: 1;
+            opacity: 0.5;
+        }
+        
+        .agent-card {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .agent-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .j2-card {
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+        
+        .j2-card:hover {
+            border-color: rgba(239, 68, 68, 0.8);
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .sub-agent-card {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-size: 0.75rem;
+        }
+        
+        .sub-agent-card:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .sub-connection-line {
+            stroke: rgba(255, 255, 255, 0.2);
+            stroke-width: 1;
+            fill: none;
+        }
+    </style>
+</head>
+<body class="bg-black text-white font-sans min-h-screen grid-background">
+    
+    <!-- Header -->
+    <header class="text-center py-12 px-4 relative z-10">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="text-6xl font-bold text-white">
+                Vannevar Ops
+            </h1>
+            <h2 class="text-xl text-gray-400 mt-4">
+                Operational Planning Powered by Collaborative AI Agents
+            </h2>
+            <p class="max-w-3xl mx-auto mt-6 text-gray-400 leading-relaxed text-base">
+                Integrated AI agents aligned with each Joint Staff directorate streamline the Joint Planning Process by analyzing large volumes of data to extract key insights, while enabling planners to contribute their own analysis and expertise—accelerating planning and enhancing data-driven decision-making.
+            </p>
+            
+            <!-- Shared Operational Memory -->
+            <div class="flex justify-center mt-8">
+                <div class="px-8 py-4 border border-gray-700 rounded-lg bg-gray-900/50 text-center">
+                    <h3 class="text-lg font-semibold text-white mb-2">Shared Operational Memory</h3>
+                    <p class="text-sm text-gray-400">
+                        Each agent maintains independent data sources while contributing to collective situational awareness
+                    </p>
+                    <div class="flex justify-center gap-4 mt-4">
+                        <span class="text-xs px-3 py-1 bg-green-900/50 text-green-400 rounded-full">Real-time Sync</span>
+                        <span class="text-xs px-3 py-1 bg-blue-900/50 text-blue-400 rounded-full">Distributed Processing</span>
+                        <span class="text-xs px-3 py-1 bg-purple-900/50 text-purple-400 rounded-full">Secure Channels</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Visualization -->
+    <main class="relative px-4 pb-20">
+        <div class="max-w-7xl mx-auto">
+            
+
+            <!-- Commander's Agent and Evil Vannevar Side by Side -->
+            <div class="flex justify-center items-start mb-8 relative gap-8" style="z-index: 2;">
+                <!-- Evil Vannevar Agent (left side, slightly lower) -->
+                <div class="agent-node mt-4" id="adversary-agent">
+                    <div class="agent-card rounded-lg p-4 cursor-pointer border-red-500/50">
+                        <a href="evil-vannevar.html" class="block">
+                            <div class="text-center">
+                                <div class="w-16 h-16 mx-auto border border-red-500/50 rounded-full flex items-center justify-center mb-3">
+                                    <span class="text-xl font-bold text-red-400">EV</span>
+                                </div>
+                                <h4 class="text-md font-bold text-red-400">Evil Vannevar</h4>
+                                <p class="text-xs text-gray-400 mt-1">Adversary Agent</p>
+                                <p class="text-xs text-red-400 mt-2">Kimi-K2</p>
+                                <div class="mt-3">
+                                    <p class="text-xs text-gray-500 underline cursor-pointer">Clickable Database</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Commander's Agent (center) -->
+                <div class="agent-node" id="commander-agent">
+                    <div class="agent-card rounded-lg p-4 h-full cursor-pointer" style="border-color: rgba(52, 152, 219, 0.5);">
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto border border-blue-600/50 rounded-full flex items-center justify-center mb-3">
+                                <span class="text-xl font-bold text-blue-400">ADM</span>
+                            </div>
+                            <h4 class="text-md font-bold text-blue-400">AdmiralNet</h4>
+                            <p class="text-xs text-gray-400 mt-1">Commander</p>
+                            <p class="text-xs text-blue-400 mt-2">OpenAI GPT 5</p>
+                            <div class="mt-3">
+                                <p class="text-xs text-gray-500">Commander Database</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- J-Agents Grid -->
+            <div class="relative" style="z-index: 2;">
+                <!-- SVG for sub-agent connections -->
+                <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 1;">
+                    <g id="sub-connections"></g>
+                </svg>
+                
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+                
+                <!-- J1 Agent -->
+                <div class="agent-node" id="j1-agent">
+                    <div class="agent-card rounded-lg p-4 h-full cursor-pointer">
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-3">
+                                <span class="text-xl font-bold text-white">J1</span>
+                            </div>
+                            <h4 class="text-md font-bold text-white">AdminAI</h4>
+                            <p class="text-xs text-gray-400 mt-1">Personnel</p>
+                            <p class="text-xs text-blue-400 mt-2">OpenAI GPT 5</p>
+                            <div class="mt-3">
+                                <p class="text-xs text-gray-500">S1 Database</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- J2 Agent -->
+                <div class="agent-node" id="j2-agent">
+                    <div class="agent-card rounded-lg p-4 h-full cursor-pointer">
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-3">
+                                <span class="text-xl font-bold text-white">J2</span>
+                            </div>
+                            <h4 class="text-md font-bold text-white">IntelNet</h4>
+                            <p class="text-xs text-gray-400 mt-1">Intelligence</p>
+                            <p class="text-xs text-red-400 mt-1">Kimi-K2</p>
+                            <p class="text-xs text-red-400 mt-1">DeepSeek R1</p>
+                            <div class="mt-3">
+                                <p class="text-xs text-gray-500">S2 Database</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- J3 Agent -->
+                <div class="agent-node" id="j3-agent">
+                    <div class="agent-card rounded-lg p-4 h-full cursor-pointer">
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-3">
+                                <span class="text-xl font-bold text-white">J3</span>
+                            </div>
+                            <h4 class="text-md font-bold text-white">OpsNet</h4>
+                            <p class="text-xs text-gray-400 mt-1">Operations</p>
+                            <p class="text-xs text-blue-400 mt-2">OpenAI GPT 5</p>
+                            <div class="mt-3">
+                                <p class="text-xs text-gray-500">S3 Database</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- J4 Agent -->
+                <div class="agent-node" id="j4-agent">
+                    <div class="agent-card rounded-lg p-4 h-full cursor-pointer">
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-3">
+                                <span class="text-xl font-bold text-white">J4</span>
+                            </div>
+                            <h4 class="text-md font-bold text-white">SustainHub</h4>
+                            <p class="text-xs text-gray-400 mt-1">Logistics</p>
+                            <p class="text-xs text-blue-400 mt-2">OpenAI GPT 5</p>
+                            <div class="mt-3">
+                                <p class="text-xs text-gray-500">S4 Database</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- J5 Agent -->
+                <div class="agent-node" id="j5-agent">
+                    <div class="agent-card rounded-lg p-4 h-full cursor-pointer">
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-3">
+                                <span class="text-xl font-bold text-white">J5</span>
+                            </div>
+                            <h4 class="text-md font-bold text-white">StratPlan-AI</h4>
+                            <p class="text-xs text-gray-400 mt-1">Planning</p>
+                            <p class="text-xs text-blue-400 mt-2">OpenAI GPT 5</p>
+                            <div class="mt-3">
+                                <p class="text-xs text-gray-500">S5 Database</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- J6 Agent -->
+                <div class="agent-node" id="j6-agent">
+                    <div class="agent-card rounded-lg p-4 h-full cursor-pointer">
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-3">
+                                <span class="text-xl font-bold text-white">J6</span>
+                            </div>
+                            <h4 class="text-md font-bold text-white">SignalMesh</h4>
+                            <p class="text-xs text-gray-400 mt-1">Comms</p>
+                            <p class="text-xs text-blue-400 mt-2">OpenAI GPT 5</p>
+                            <div class="mt-3">
+                                <p class="text-xs text-gray-500">S6 Database</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                
+                <!-- Sub-Agents organized below each director -->
+                <div class="mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                    
+                    <!-- J1 Sub-Agents -->
+                    <div class="space-y-3" id="j1-sub-agents">
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">PT</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">Personnel Tracker</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">RM</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">Readiness Monitor</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                    </div>
+                    
+                    <!-- J2 Sub-Agents -->
+                    <div class="space-y-3" id="j2-sub-agents">
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">CT</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">Collections Tasking</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">GI</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">GeoInt</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">TG</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">Targeting</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">SI</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">SigInt</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                    </div>
+                    
+                    <!-- J3 Sub-Agents -->
+                    <div class="space-y-3" id="j3-sub-agents">
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">AO</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">Air Ops</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">MO</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">Maritime Ops</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">SO</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">SOF Ops</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                    </div>
+                    
+                    <!-- J4 Sub-Agents -->
+                    <div class="space-y-3" id="j4-sub-agents">
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">AT</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">Ammo Tracking</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">VR</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">Vehicle Readiness</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">WS</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">Weapons & Systems</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                    </div>
+                    
+                    <!-- J5 Sub-Agents -->
+                    <div class="space-y-3" id="j5-sub-agents">
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">CP</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">Campaign Planner</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">FF</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">Future Ops Forecaster</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                    </div>
+                    
+                    <!-- J6 Sub-Agents -->
+                    <div class="space-y-3" id="j6-sub-agents">
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">CD</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">Cyber Defense</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                        <div class="sub-agent-card rounded-lg p-2 text-center">
+                            <div class="w-6 h-6 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-1">
+                                <span class="text-xs font-bold text-white">CS</span>
+                            </div>
+                            <p class="text-xs text-white font-bold">Comms Sync</p>
+                            <p class="text-xs text-gray-500">Agent</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- Bottom Buttons -->
+            <div class="flex justify-center gap-4 mt-16">
+                <button onclick="window.open('master-database.html', '_blank')" class="px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                    Master Database
+                </button>
+                <button onclick="window.open('running-estimates.html', '_blank')" class="px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                    Running Estimates
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-gray-600 py-8 mt-12 border-t border-gray-800">
+        <p>Vannevar Ops Prototype — Joint Military Planning Process Support System</p>
+        <p class="mt-2">Classified: For Official Use Only</p>
+    </footer>
+
+    <script>
+        
+        // Draw connections from Adversary Agent to J2 and main agents to their sub-agents
+        function drawSubConnections() {
+            const svg = document.getElementById('sub-connections');
+            if (!svg) return;
+            
+            // Clear existing connections
+            svg.innerHTML = '';
+            
+            // Adversary Agent to J2 connection
+            const adversaryAgent = document.getElementById('adversary-agent');
+            const j2Agent = document.getElementById('j2-agent');
+            if (adversaryAgent && j2Agent) {
+                const advRect = adversaryAgent.getBoundingClientRect();
+                const advX = advRect.left + advRect.width / 2;
+                const advY = advRect.top + advRect.height;
+                
+                const j2Rect = j2Agent.getBoundingClientRect();
+                const j2X = j2Rect.left + j2Rect.width / 2;
+                const j2Y = j2Rect.top;
+                
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', advX);
+                line.setAttribute('y1', advY);
+                line.setAttribute('x2', j2X);
+                line.setAttribute('y2', j2Y);
+                line.setAttribute('class', 'sub-connection-line');
+                line.style.stroke = 'rgba(239, 68, 68, 0.4)';
+                svg.appendChild(line);
+            }
+            
+            // J1 connections to sub-agents
+            const j1Agent = document.getElementById('j1-agent');
+            const j1SubAgents = document.getElementById('j1-sub-agents');
+            if (j1Agent && j1SubAgents) {
+                const j1Rect = j1Agent.getBoundingClientRect();
+                const j1X = j1Rect.left + j1Rect.width / 2;
+                const j1Y = j1Rect.top + j1Rect.height;
+                
+                const subAgents = j1SubAgents.querySelectorAll('.sub-agent-card');
+                subAgents.forEach(subAgent => {
+                    const subRect = subAgent.getBoundingClientRect();
+                    const subX = subRect.left + subRect.width / 2;
+                    const subY = subRect.top;
+                    
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', j1X);
+                    line.setAttribute('y1', j1Y);
+                    line.setAttribute('x2', subX);
+                    line.setAttribute('y2', subY);
+                    line.setAttribute('class', 'sub-connection-line');
+                    svg.appendChild(line);
+                });
+            }
+            
+            // J2 connections to sub-agents
+            const j2SubAgents = document.getElementById('j2-sub-agents');
+            if (j2Agent && j2SubAgents) {
+                const j2Rect = j2Agent.getBoundingClientRect();
+                const j2X = j2Rect.left + j2Rect.width / 2;
+                const j2Y = j2Rect.top + j2Rect.height;
+                
+                const subAgents = j2SubAgents.querySelectorAll('.sub-agent-card');
+                subAgents.forEach(subAgent => {
+                    const subRect = subAgent.getBoundingClientRect();
+                    const subX = subRect.left + subRect.width / 2;
+                    const subY = subRect.top;
+                    
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', j2X);
+                    line.setAttribute('y1', j2Y);
+                    line.setAttribute('x2', subX);
+                    line.setAttribute('y2', subY);
+                    line.setAttribute('class', 'sub-connection-line');
+                    svg.appendChild(line);
+                });
+            }
+            
+            // J3 connections to sub-agents
+            const j3Agent = document.getElementById('j3-agent');
+            const j3SubAgents = document.getElementById('j3-sub-agents');
+            if (j3Agent && j3SubAgents) {
+                const j3Rect = j3Agent.getBoundingClientRect();
+                const j3X = j3Rect.left + j3Rect.width / 2;
+                const j3Y = j3Rect.top + j3Rect.height;
+                
+                const subAgents = j3SubAgents.querySelectorAll('.sub-agent-card');
+                subAgents.forEach(subAgent => {
+                    const subRect = subAgent.getBoundingClientRect();
+                    const subX = subRect.left + subRect.width / 2;
+                    const subY = subRect.top;
+                    
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', j3X);
+                    line.setAttribute('y1', j3Y);
+                    line.setAttribute('x2', subX);
+                    line.setAttribute('y2', subY);
+                    line.setAttribute('class', 'sub-connection-line');
+                    svg.appendChild(line);
+                });
+            }
+            
+            // J4 connections to sub-agents
+            const j4Agent = document.getElementById('j4-agent');
+            const j4SubAgents = document.getElementById('j4-sub-agents');
+            if (j4Agent && j4SubAgents) {
+                const j4Rect = j4Agent.getBoundingClientRect();
+                const j4X = j4Rect.left + j4Rect.width / 2;
+                const j4Y = j4Rect.top + j4Rect.height;
+                
+                const subAgents = j4SubAgents.querySelectorAll('.sub-agent-card');
+                subAgents.forEach(subAgent => {
+                    const subRect = subAgent.getBoundingClientRect();
+                    const subX = subRect.left + subRect.width / 2;
+                    const subY = subRect.top;
+                    
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', j4X);
+                    line.setAttribute('y1', j4Y);
+                    line.setAttribute('x2', subX);
+                    line.setAttribute('y2', subY);
+                    line.setAttribute('class', 'sub-connection-line');
+                    svg.appendChild(line);
+                });
+            }
+            
+            // J5 connections to sub-agents
+            const j5Agent = document.getElementById('j5-agent');
+            const j5SubAgents = document.getElementById('j5-sub-agents');
+            if (j5Agent && j5SubAgents) {
+                const j5Rect = j5Agent.getBoundingClientRect();
+                const j5X = j5Rect.left + j5Rect.width / 2;
+                const j5Y = j5Rect.top + j5Rect.height;
+                
+                const subAgents = j5SubAgents.querySelectorAll('.sub-agent-card');
+                subAgents.forEach(subAgent => {
+                    const subRect = subAgent.getBoundingClientRect();
+                    const subX = subRect.left + subRect.width / 2;
+                    const subY = subRect.top;
+                    
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', j5X);
+                    line.setAttribute('y1', j5Y);
+                    line.setAttribute('x2', subX);
+                    line.setAttribute('y2', subY);
+                    line.setAttribute('class', 'sub-connection-line');
+                    svg.appendChild(line);
+                });
+            }
+            
+            // J6 connections to sub-agents
+            const j6Agent = document.getElementById('j6-agent');
+            const j6SubAgents = document.getElementById('j6-sub-agents');
+            if (j6Agent && j6SubAgents) {
+                const j6Rect = j6Agent.getBoundingClientRect();
+                const j6X = j6Rect.left + j6Rect.width / 2;
+                const j6Y = j6Rect.top + j6Rect.height;
+                
+                const subAgents = j6SubAgents.querySelectorAll('.sub-agent-card');
+                subAgents.forEach(subAgent => {
+                    const subRect = subAgent.getBoundingClientRect();
+                    const subX = subRect.left + subRect.width / 2;
+                    const subY = subRect.top;
+                    
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', j6X);
+                    line.setAttribute('y1', j6Y);
+                    line.setAttribute('x2', subX);
+                    line.setAttribute('y2', subY);
+                    line.setAttribute('class', 'sub-connection-line');
+                    svg.appendChild(line);
+                });
+            }
+        }
+        
+        // Redraw sub-connections on window resize
+        window.addEventListener('resize', () => {
+            drawSubConnections();
+        });
+        
+        // Initial draw of sub-connections
+        setTimeout(drawSubConnections, 200);
+        
+        // Add click interactions
+        document.querySelectorAll('.agent-node:not(#j2-agent)').forEach(node => {
+            node.addEventListener('click', function() {
+                const agentName = this.querySelector('h4') ? this.querySelector('h4').textContent : 
+                                 this.querySelector('h3').textContent;
+                console.log(`Agent ${agentName} selected for interaction`);
+            });
+        });
+    </script>
+</body>
+</html>

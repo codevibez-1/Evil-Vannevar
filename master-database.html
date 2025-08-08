@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Database - Vannevar Ops</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .grid-background {
+            background-color: #000000;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.01) 50%, transparent 60%),
+                linear-gradient(-45deg, transparent 40%, rgba(255, 255, 255, 0.01) 50%, transparent 60%);
+            background-size: 80px 80px, 80px 80px, 160px 160px, 160px 160px;
+        }
+        
+        .database-card {
+            background: rgba(31, 41, 55, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .database-card:hover {
+            background: rgba(31, 41, 55, 0.8);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .directorate-header {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .status-online { 
+            background: rgba(34, 197, 94, 0.2);
+            color: #bbf7d0;
+        }
+        
+        .status-syncing { 
+            background: rgba(251, 191, 36, 0.2);
+            color: #fde68a;
+        }
+        
+        .status-maintenance { 
+            background: rgba(156, 163, 175, 0.2);
+            color: #d1d5db;
+        }
+        
+        .status-critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+    </style>
+</head>
+<body class="bg-black text-white font-sans min-h-screen grid-background">
+    
+    <!-- Header -->
+    <header class="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <a href="index.html" class="inline-block text-sm text-blue-400 hover:text-blue-300 mb-2">
+                        ← Return to Vannevar Ops Agentic Homepage
+                    </a>
+                    <h1 class="text-3xl font-bold text-white">Master Database Access</h1>
+                    <p class="text-sm text-gray-400 mt-2">Centralized access to all agent databases and data sources</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm text-gray-400">Last Updated: 7 Aug 2025 | 14:45 UTC</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- Commander Level -->
+        <section class="mb-12">
+            <div class="directorate-header rounded-lg p-4 mb-6">
+                <h2 class="text-xl font-bold text-white mb-2">Command Level Databases</h2>
+                <p class="text-sm text-gray-400">Strategic command and control data repositories</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-purple-400">AdmiralNet Commander Database</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Strategic planning archives, command decisions, and operational directives</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Model: OpenAI-04</span>
+                        <button class="px-3 py-1 bg-purple-600 text-white text-xs rounded hover:bg-purple-500 transition">
+                            Access Database
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-red-400">Evil Vannevar Adversary Database</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-critical">RESTRICTED</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Adversarial intelligence analysis, threat assessments, and red team data</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Model: Kimi-K2</span>
+                        <div class="flex gap-2">
+                            <button onclick="window.open('evil-vannevar.html', '_blank')" class="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-500 transition">
+                                Access Interface
+                            </button>
+                            <button onclick="window.open('https://vannevarlabs.sharepoint.us/:f:/s/vannevarlabs/EoOrnCDL3vxAuYg-SZW-ml0BcMb5Ob7JujB06x-6tytSWg?e=hJ1P47', '_blank')" class="px-3 py-1 bg-gray-600 text-white text-xs rounded hover:bg-gray-500 transition">
+                                View Database
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- J1 Personnel -->
+        <section class="mb-12">
+            <div class="directorate-header rounded-lg p-4 mb-6">
+                <h2 class="text-xl font-bold text-white mb-2">J1 - Personnel Directorate</h2>
+                <p class="text-sm text-gray-400">Human resources, personnel management, and readiness data</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">S1 Database</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Primary personnel records and administrative data</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">AdminAI - OpenAI-04</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Personnel Tracker</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-syncing">SYNCING</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Real-time personnel location and status tracking</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Readiness Monitor</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Personnel readiness assessments and training records</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- J2 Intelligence -->
+        <section class="mb-12">
+            <div class="directorate-header rounded-lg p-4 mb-6">
+                <h2 class="text-xl font-bold text-white mb-2">J2 - Intelligence Directorate</h2>
+                <p class="text-sm text-gray-400">Intelligence analysis, collection, and threat assessment data</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">S2 Database</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Primary intelligence repository and analysis data</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">IntelNet - Kimi-K2</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Collections Tasking</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Collection requirements and tasking orders</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">GeoInt</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Geospatial intelligence and imagery analysis</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Targeting</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-critical">PRIORITY</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Target development and nomination data</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">SigInt</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Signals intelligence and communications data</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- J3 Operations -->
+        <section class="mb-12">
+            <div class="directorate-header rounded-lg p-4 mb-6">
+                <h2 class="text-xl font-bold text-white mb-2">J3 - Operations Directorate</h2>
+                <p class="text-sm text-gray-400">Operational planning, execution, and coordination data</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">S3 Database</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Operations logs and tactical planning data</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">OpsNet - Gemini-1.5</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Air Ops</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Air operations planning and execution data</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Maritime Ops</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Maritime operations and naval coordination</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">SOF Ops</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Special operations forces coordination</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- J4 Logistics -->
+        <section class="mb-12">
+            <div class="directorate-header rounded-lg p-4 mb-6">
+                <h2 class="text-xl font-bold text-white mb-2">J4 - Logistics Directorate</h2>
+                <p class="text-sm text-gray-400">Supply chain, sustainment, and logistics data</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">S4 Database</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Logistics tracking and supply chain data</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">SustainHub - OpenAI-04</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Ammo Tracking</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-syncing">SYNCING</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Ammunition inventory and distribution tracking</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Vehicle Readiness</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Vehicle maintenance and readiness status</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Weapons & Systems</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Weapons systems readiness and maintenance</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- J5 Strategic Planning -->
+        <section class="mb-12">
+            <div class="directorate-header rounded-lg p-4 mb-6">
+                <h2 class="text-xl font-bold text-white mb-2">J5 - Strategic Planning Directorate</h2>
+                <p class="text-sm text-gray-400">Strategic plans, forecasts, and future operations</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">S5 Database</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Strategic plans library and planning documents</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">StratPlan-AI - Gemini-1.5</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Campaign Planner</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Campaign planning models and scenarios</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Future Ops Forecaster</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Future operations forecasting and analysis</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- J6 Communications -->
+        <section class="mb-12">
+            <div class="directorate-header rounded-lg p-4 mb-6">
+                <h2 class="text-xl font-bold text-white mb-2">J6 - Communications Directorate</h2>
+                <p class="text-sm text-gray-400">Communications, cyber operations, and information systems</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">S6 Database</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Communications and cyber operations stack</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">SignalMesh - OpenAI-04</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Cyber Defense</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Cybersecurity monitoring and defense systems</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-card rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Comms Sync</h3>
+                        <span class="px-2 py-1 text-xs rounded-full status-online">ONLINE</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Communications synchronization and coordination</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Sub-Agent</span>
+                        <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500 transition">
+                            Access
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-gray-600 py-6 mt-8 border-t border-gray-800">
+        <p>Master Database Access Portal</p>
+        <p class="mt-1">Generated by Vannevar Ops Planning System</p>
+    </footer>
+
+</body>
+</html>

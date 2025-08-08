@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running Estimates</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .grid-background {
+            background-color: #000000;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.01) 50%, transparent 60%),
+                linear-gradient(-45deg, transparent 40%, rgba(255, 255, 255, 0.01) 50%, transparent 60%);
+            background-size: 80px 80px, 80px 80px, 160px 160px, 160px 160px;
+        }
+        
+        .table-container {
+            background: rgba(31, 41, 55, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .status-indicator {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .priority-high { 
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+        
+        .priority-medium { 
+            background: rgba(251, 191, 36, 0.2);
+            color: #fde68a;
+        }
+        
+        .priority-low { 
+            background: rgba(34, 197, 94, 0.2);
+            color: #bbf7d0;
+        }
+        
+        .status-in-progress { 
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+        }
+        
+        .status-completed { 
+            background: rgba(34, 197, 94, 0.2);
+            color: #bbf7d0;
+        }
+        
+        .status-pending { 
+            background: rgba(156, 163, 175, 0.2);
+            color: #d1d5db;
+        }
+        
+        .status-critical { 
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+    </style>
+</head>
+<body class="bg-black text-white font-sans min-h-screen grid-background">
+    
+    <!-- Header -->
+    <header class="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <a href="index.html" class="inline-block text-sm text-blue-400 hover:text-blue-300 mb-2">
+                        ← Return to Vannevar Ops Agentic Homepage
+                    </a>
+                    <h1 class="text-3xl font-bold text-white">Running Estimates</h1>
+                    <p class="text-sm text-gray-400 mt-2">Updated: 7 August 2025 | 14:32 UTC</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- Summary Statistics -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-gray-800/50 rounded-lg p-4 text-center">
+                <div class="text-2xl font-bold text-red-400">4</div>
+                <div class="text-sm text-gray-400">Critical/High Priority</div>
+            </div>
+            <div class="bg-gray-800/50 rounded-lg p-4 text-center">
+                <div class="text-2xl font-bold text-blue-400">7</div>
+                <div class="text-sm text-gray-400">In Progress</div>
+            </div>
+            <div class="bg-gray-800/50 rounded-lg p-4 text-center">
+                <div class="text-2xl font-bold text-green-400">6</div>
+                <div class="text-sm text-gray-400">Completed</div>
+            </div>
+            <div class="bg-gray-800/50 rounded-lg p-4 text-center">
+                <div class="text-2xl font-bold text-gray-400">1</div>
+                <div class="text-sm text-gray-400">Pending</div>
+            </div>
+        </div>
+        
+        <!-- Estimates Table -->
+        <div class="table-container rounded-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-800/80">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-b border-gray-700">#</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-b border-gray-700">Estimate Type</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-b border-gray-700">Description</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-b border-gray-700">Responsible</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-b border-gray-700">Priority</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-b border-gray-700">Status</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-b border-gray-700">Last Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700">
+                        
+                        <!-- Intelligence Estimate Row 1 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">1.1</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Intelligence</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">PLA Eastern Theater naval/air patrol increase</td>
+                            <td class="px-6 py-4 text-sm text-blue-400">J2 IntelNet</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-high">HIGH</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-completed">CONFIRMED</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 13:45</td>
+                        </tr>
+                        
+                        <!-- Intelligence Estimate Row 2 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">1.2</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Intelligence</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">Amphibious asset mobilization in Fujian Province</td>
+                            <td class="px-6 py-4 text-sm text-blue-400">J2 GeoInt Agent</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-high">HIGH</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-completed">CONFIRMED</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 12:30</td>
+                        </tr>
+                        
+                        <!-- Intelligence Estimate Row 3 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">1.3</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Intelligence</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">DF-17 missile units positioned for airbase strikes</td>
+                            <td class="px-6 py-4 text-sm text-blue-400">J2 Targeting Agent</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-high">HIGH</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-critical">CRITICAL</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 14:15</td>
+                        </tr>
+                        
+                        <!-- Operations Estimate Row 1 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">2.1</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Operations</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">7th Fleet defensive deterrence posture near Okinawa</td>
+                            <td class="px-6 py-4 text-sm text-green-400">J3 Maritime Ops</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-high">HIGH</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-in-progress">ACTIVE</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 14:00</td>
+                        </tr>
+                        
+                        <!-- Operations Estimate Row 2 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">2.2</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Operations</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">PACAF ISR surge and ACE posture activation</td>
+                            <td class="px-6 py-4 text-sm text-green-400">J3 Air Ops Agent</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-high">HIGH</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-in-progress">EXECUTING</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 13:30</td>
+                        </tr>
+                        
+                        <!-- Logistics Estimate Row 1 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">3.1</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Logistics</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">Prepositioned stocks readiness assessment (65%)</td>
+                            <td class="px-6 py-4 text-sm text-yellow-400">J4 SustainHub</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-medium">MEDIUM</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-completed">ASSESSED</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 11:45</td>
+                        </tr>
+                        
+                        <!-- Logistics Estimate Row 2 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">3.2</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Logistics</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">Fuel/munitions sustainment timeline review</td>
+                            <td class="px-6 py-4 text-sm text-yellow-400">J4 Ammo Tracking</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-medium">MEDIUM</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-in-progress">REVIEWING</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 13:00</td>
+                        </tr>
+                        
+                        <!-- Fires Estimate Row 1 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">4.1</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Fires</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">Joint targeting coordination with Taiwan MND</td>
+                            <td class="px-6 py-4 text-sm text-orange-400">J3 Targeting Cell</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-high">HIGH</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-in-progress">ONGOING</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 14:20</td>
+                        </tr>
+                        
+                        <!-- Fires Estimate Row 2 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">4.2</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Fires</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">Counter-targeting and EW integration planning</td>
+                            <td class="px-6 py-4 text-sm text-orange-400">J6 SignalMesh</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-high">HIGH</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-in-progress">PLANNING</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 12:45</td>
+                        </tr>
+                        
+                        <!-- Protection Estimate Row 1 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">5.1</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Protection</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">FPCON BRAVO+ implementation across installations</td>
+                            <td class="px-6 py-4 text-sm text-purple-400">J1 AdminAI</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-high">HIGH</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-completed">IMPLEMENTED</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 10:30</td>
+                        </tr>
+                        
+                        <!-- Protection Estimate Row 2 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">5.2</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Protection</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">Cyber vulnerability scans of C2 nodes</td>
+                            <td class="px-6 py-4 text-sm text-purple-400">J6 Cyber Defense</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-medium">MEDIUM</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-in-progress">SCANNING</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 09:15</td>
+                        </tr>
+                        
+                        <!-- Sustainment Estimate Row 1 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">6.1</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Sustainment</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">Medical evacuation routes to Kadena AB</td>
+                            <td class="px-6 py-4 text-sm text-green-400">J1 Medical</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-low">LOW</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-completed">ESTABLISHED</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 08:45</td>
+                        </tr>
+                        
+                        <!-- Sustainment Estimate Row 2 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">6.2</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Sustainment</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">Marine Littoral Regiment ACE sustainment (10 days)</td>
+                            <td class="px-6 py-4 text-sm text-green-400">J4 Vehicle Readiness</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-medium">MEDIUM</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-completed">FEASIBLE</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 11:20</td>
+                        </tr>
+                        
+                        <!-- Civil-Military Operations Row 1 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">7.1</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Civil-Military</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">Allied messaging through Strategic Comm Cell</td>
+                            <td class="px-6 py-4 text-sm text-cyan-400">J5 StratPlan-AI</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-medium">MEDIUM</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-in-progress">COORDINATING</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 13:15</td>
+                        </tr>
+                        
+                        <!-- Civil-Military Operations Row 2 -->
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="px-6 py-4 text-sm text-gray-300">7.2</td>
+                            <td class="px-6 py-4 text-sm font-medium text-white">Civil-Military</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">Regional partner reassurance requests</td>
+                            <td class="px-6 py-4 text-sm text-cyan-400">J5 Campaign Planner</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full priority-low">LOW</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs rounded-full status-pending">PENDING</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-400">07 Aug 10:00</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Export Options -->
+        <div class="flex justify-center gap-4 mt-8">
+            <button onclick="alert('Excel export functionality coming soon')" class="px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-600 transition flex items-center gap-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 2v2h2V6H6zm4 0v2h2V6h-2zm-4 4v2h2v-2H6zm4 0v2h2v-2h-2z"/>
+                </svg>
+                Export to Excel
+            </button>
+            <button onclick="window.print()" class="px-6 py-3 bg-red-700 text-white font-semibold rounded-lg hover:bg-red-600 transition flex items-center gap-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M4 5a2 2 0 012-2h8a2 2 0 012 2v1h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v1a2 2 0 01-2 2H6a2 2 0 01-2-2v-1H2a2 2 0 01-2-2V8a2 2 0 012-2h2V5zm6 11V9H8v7h2z"/>
+                </svg>
+                Export to PDF
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-gray-600 py-6 mt-8 border-t border-gray-800">
+        <p>Running Estimates Dashboard</p>
+        <p class="mt-1">Generated by Vannevar Ops Planning System</p>
+    </footer>
+
+</body>
+</html>
